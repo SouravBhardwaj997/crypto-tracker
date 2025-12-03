@@ -1,0 +1,31 @@
+# Node.js
+node_modules/
+.env
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnp
+.pnp.js
+
+# Build artifacts
+dist/
+build/
+out/
+
+# Log files
+*.log
+
+# IDE and OS specific files
+.DS_Store
+.vscode/
+.idea/
+Thumbs.db
+
+# Test coverage
+coverage/
+
+# Uploads (if any)
+uploads/
+
+# Frontend specific (if not already handled by a separate .gitignore in the client directory)
+client/build/
