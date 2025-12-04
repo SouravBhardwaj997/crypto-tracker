@@ -5,6 +5,7 @@ const COINGECKO_URL =
 export const fetchTopCryptos = async (req, res) => {
   try {
     const { data } = await axios.get(COINGECKO_URL);
+
     const formatted = data.map((coin) => ({
       coinId: coin.id,
       name: coin.name,
@@ -15,14 +16,19 @@ export const fetchTopCryptos = async (req, res) => {
       lastUpdated: new Date(),
     }));
 
-    return res.json({
+    for (const coin of formatted) {
+      await Current.findOneAndUpdate({ coinId: coin.coinId }, coin, {
+        upsert: true,
+      });
+    }
+
+    res.json({
       success: true,
-      source: "CoinGecko Live",
       count: formatted.length,
       data: formatted,
     });
-  } catch (error) {
-    console.log("error in fetchTopCryptos", error);
-    return res.status(500).json({ message: "Internal Server Error" });
+  } catch (err) {
+    console.error("Coin route error:", err.message);
+    res.status(500).json({ success: false, message: err.message });
   }
 };
