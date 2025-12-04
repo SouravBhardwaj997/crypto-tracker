@@ -1,8 +1,9 @@
 import axios from "axios";
+import Current from "../models/Current.js";
 const COINGECKO_URL =
   "https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=10&page=1";
 
-export const fetchTopCryptos = async (req, res) => {
+export const fetchTopCryptos = async (_, res) => {
   try {
     const { data } = await axios.get(COINGECKO_URL);
 
@@ -16,11 +17,9 @@ export const fetchTopCryptos = async (req, res) => {
       lastUpdated: new Date(),
     }));
 
-    for (const coin of formatted) {
-      await Current.findOneAndUpdate({ coinId: coin.coinId }, coin, {
-        upsert: true,
-      });
-    }
+    await Current.deleteMany({});
+
+    await Current.insertMany(formatted);
 
     res.json({
       success: true,

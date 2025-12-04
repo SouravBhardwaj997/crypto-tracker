@@ -1,5 +1,6 @@
+import Current from "../models/Current.js";
 import History from "../models/History.js";
-export const appendHistoryData = async (req, res) => {
+export const appendHistoryData = async (_, res) => {
   try {
     const currentCoins = await Current.find();
 
@@ -19,7 +20,6 @@ export const appendHistoryData = async (req, res) => {
       change24h: c.change24h,
       snapshotAt: new Date(),
     }));
-
     await History.insertMany(historyDocs);
 
     res.json({
@@ -32,12 +32,18 @@ export const appendHistoryData = async (req, res) => {
     res.status(500).json({ success: false, message: err.message });
   }
 };
-
 export const fetchSingleCoinData = async (req, res) => {
   try {
     const history = await History.find({
       coinId: req.params.coinId,
     }).sort({ snapshotAt: 1 });
+
+    if (!history.length) {
+      return res.status(400).json({
+        success: false,
+        message: `No history found for coinId: ${req.params.coinId}`,
+      });
+    }
 
     res.json({
       success: true,
@@ -45,6 +51,7 @@ export const fetchSingleCoinData = async (req, res) => {
       data: history,
     });
   } catch (err) {
+    console.error("History fetch error:", err.message);
     res.status(500).json({ success: false, message: err.message });
   }
 };
