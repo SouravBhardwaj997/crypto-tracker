@@ -12,4 +12,8 @@ const currentSchema = new Schema(
   { timestamps: true }
 );
 
+currentSchema.index({ symbol: 1 });
+currentSchema.index({ price: 1 });
+currentSchema.index({ marketCap: 1 });
+
 export default model("Current", currentSchema);

@@ -10,4 +10,8 @@ const historySchema = new Schema({
   snapshotAt: { type: Date, default: Date.now },
 });
 
+historySchema.index({ coinId: 1 });
+historySchema.index({ coinId: 1, snapshotAt: -1 });
+historySchema.index({ snapshotAt: 1 });
+
 export default model("History", historySchema);
