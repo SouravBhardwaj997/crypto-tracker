@@ -102,7 +102,9 @@ function App() {
           : (bValue as string).localeCompare(aValue);
       }
 
-      return sortOrder === "asc" ? (aValue as number) - (bValue as number) : (bValue as number) - (aValue as number);
+      return sortOrder === "asc"
+        ? (aValue as number) - (bValue as number)
+        : (bValue as number) - (aValue as number);
     });
 
     setFilteredCryptos(filtered);
@@ -132,7 +134,6 @@ function App() {
             Crypto Tracker
           </h1>
           <p className="text-gray-500 text-sm">Last updated: {lastUpdated}</p>
-          <p className="text-gray-600 text-xs mt-2">Auto-refreshes every 30 minutes</p>
         </header>
 
         <div className="mb-8 space-y-4 bg-gray-900 p-6 rounded-lg border border-gray-800">
