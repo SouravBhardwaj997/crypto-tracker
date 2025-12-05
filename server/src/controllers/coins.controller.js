@@ -8,12 +8,6 @@ let lastFetchTime = 0;
 let cachedData = null;
 const CACHE_DURATION = 60 * 1000;
 
-const createAxiosInstance = () => {
-  return axios.create({
-    timeout: 10000,
-  });
-};
-
 export const fetchTopCryptos = async (_, res) => {
   try {
     const now = Date.now();
@@ -28,8 +22,7 @@ export const fetchTopCryptos = async (_, res) => {
       });
     }
 
-    const axiosInstance = createAxiosInstance();
-    const { data } = await axiosInstance.get(COINGECKO_URL);
+    const { data } = await axios.get(COINGECKO_URL);
 
     const formatted = data.map((coin) => ({
       coinId: coin.id,
