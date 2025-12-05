@@ -29,7 +29,7 @@ function App() {
     try {
       setLoading(true);
       setError(null);
-      const response = await fetch("http://localhost:8000/api/coins");
+      const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/coins`);
 
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
